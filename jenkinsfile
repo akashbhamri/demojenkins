@@ -1,0 +1,53 @@
+pipeline {
+    agent any
+    environment{
+        name = "Akash"
+    }
+    
+    parameters {
+        string(name : 'person' , defaultValue: 'Akash', description:' who are you')
+        booleanParam(name: 'isMale' , defaultValue: true , description: "")
+        choice(name: 'City' , choices: ['Jaipur','Mumbai','Pune'],description:"")
+        
+    }
+
+    stages {
+        stage('environment') {
+            steps {
+                echo "${name}"
+            }
+        }
+        stage('parameters'){
+        steps{
+            
+            echo "${person}"
+            echo "${isMale}"
+            echo "${City}"
+            
+        }
+        }
+        stage('Continue ?')
+        {
+            input{
+                message "Should we continue"
+                ok "Yes we should"
+            }
+            steps{
+                echo 'deploy on  prod'
+            }
+        }
+      
+      
+    }
+      post{
+            always{
+                echo "i am not going to fail"
+            }
+            failure{
+                echo "Failure"
+            }
+            success{
+                echo "Success"
+            }
+        }
+}
